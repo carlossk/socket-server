@@ -3,7 +3,7 @@ import express from "express";
 import { SERVER_PORT } from "../global/environment";
 import socketIO from "socket.io";
 import http from "http";
-
+import * as socket_jc from "../sockets/socket";
 export default class Server {
   private static _instance: Server;
   public port: number;
@@ -25,6 +25,9 @@ export default class Server {
     console.log("listening conection");
     this.io.on("connection", client => {
       console.log("new client conected");
+      
+      socket_jc.disconnect(client);
+      socket_jc.message(client);
     });
   }
   start(callback: Function) {
